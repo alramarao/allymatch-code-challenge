@@ -101,7 +101,7 @@ function Popup(prop) {
             </main>
             <div className="buttons">
               {prop.cancelbtn ? (
-                <button className="cancel" onClick={(e) => prop.handleCancel}>
+                <button className="cancel" onClick={(e) => prop.handleCancel()}>
                   {prop.cancelbtn.toUpperCase()}
                 </button>
               ) : (
