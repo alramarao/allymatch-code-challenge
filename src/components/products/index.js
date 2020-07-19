@@ -5,6 +5,11 @@ import { getProducts } from "../../api";
 import { CSSTransition } from "react-transition-group";
 import Popup from "../popup/index";
 
+/**
+ * @function Products is functional component
+ * Products is the container to display Products
+ * @hook {object} useProducts Custom hook to update the actions
+ */
 function Products() {
   const {
     isModified,
@@ -17,11 +22,12 @@ function Products() {
     visible: false,
     isPreview: false,
   });
+
   const fetchProducts = async () => {
     try {
       const data = await getProducts();
       updateProductsList(data);
-    } catch (err) {}
+    } catch (err) { }
   };
   useEffect(() => {
     fetchProducts();
@@ -34,13 +40,13 @@ function Products() {
         <Popup
           preview={true}
           message="Couldn't find the right product? Please request an additional product below."
-          input="Enter Value"
-          okbtn="send"
-          cancelbtn="cancel"
-          handleOK={(message) => {
-            console.log(message);
-            setIsShowPopup({ visible: false, isPreview: false });
-          }}
+          // input="Enter Value"
+          // okbtn="send"
+          // cancelbtn="cancel"
+          // handleOK={(message) => {
+          //   console.log(message);
+          //   setIsShowPopup({ visible: false, isPreview: false });
+          // }}
           handleCancel={() =>
             setIsShowPopup({ visible: false, isPreview: false })
           }
@@ -79,25 +85,27 @@ function Products() {
               }}
             ></input>
           ) : (
-            ""
-          )}
+              ""
+            )}
         </header>
         <div>
+          {/* Rendering Product components from the Array */}
           {typeof productsList != "undefined" && productsList != null
             ? productsList.map((product) => (
-                <CSSTransition
-                  key={product.id}
-                  in={true}
-                  appear
-                  timeout={200}
-                  classNames="transitionitems"
-                  unmountOnExit
-                >
-                  <Product key={product.id} product={product}></Product>
-                </CSSTransition>
-              ))
+              <CSSTransition
+                key={product.id}
+                in={true}
+                appear
+                timeout={200}
+                classNames="transitionitems"
+                unmountOnExit
+              >
+                <Product key={product.id} product={product}></Product>
+              </CSSTransition>
+            ))
             : ""}
           <div className="newItem">
+            {/* Button to Add new product */}
             <input
               type="button"
               value="+ Add Product"

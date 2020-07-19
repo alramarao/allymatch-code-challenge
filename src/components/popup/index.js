@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import useProducts from "../../hooks/useProducts";
 import { addProduct, addSubCategory, addSubProduct } from "../../api";
-
+/**
+ * @function Popup is functional component
+ * Popup for dislay the message [or] read the input from user [or] display the user selection
+ * @param {object} prop Component props
+ * @param {bool} prop.preview Shows if popup is to display the selection
+ * @param {string} prop.message Dispay Message
+ * @param {bool} prop.input Display Input field
+ * @param {string} prop.cancelbtn if it's available ten display cancel button and it will bring button text as well
+ * @param {string} prop.okbtn if it's available ten display cancel button and it will bring button text as well
+ * @param {function} prop.handleCancel popup callback function on cancel
+ * @param {function} prop.handleOK popup callback function on OK
+ */
 function Popup(prop) {
   const { productsList } = useProducts();
   const [message, setMessage] = useState("");
   const [inputError, setInputError] = useState(false);
 
+  /**
+   * @function displaySelection Function to Filter the items which are selected from productsList 
+   * which is holding all the products, sub categories and sub products
+   */
   const displaySelection = () => {
     let result = {
       products: [],
@@ -45,6 +60,14 @@ function Popup(prop) {
     }
     return content;
   };
+
+  /**
+   * EventHandler for Submit button
+   * It will filter all the items which are added by User
+   * @function addProduct API method to submit the Product
+   * @function addSubCategory API method to submit the SubCategory
+   * @function addSubProduct API method to submit the SubProduct
+   */
   const submitSelection = () => {
     const selection = productsList.filter((p) => {
       return p.isSelected === true;
@@ -82,48 +105,52 @@ function Popup(prop) {
             <button onClick={(e) => submitSelection()}>Submit</button>
           </React.Fragment>
         ) : (
-          <React.Fragment>
-            <main>
-              <div>{prop.message}</div>
-              {prop.input ? (
-                <input
-                  type="text"
-                  className={inputError ? "error" : ""}
-                  placeholder={prop.input}
-                  onChange={(e) => {
-                    setMessage(e.target.value);
-                    setInputError(false);
-                  }}
-                />
-              ) : (
-                ""
-              )}
-            </main>
-            <div className="buttons">
-              {prop.cancelbtn ? (
-                <button className="cancel" onClick={(e) => prop.handleCancel()}>
-                  {prop.cancelbtn.toUpperCase()}
-                </button>
-              ) : (
-                ""
-              )}
-              {prop.okbtn ? (
-                <button
-                  className="ok"
-                  onClick={(e) => {
-                    message.length > 0
-                      ? prop.handleOK(message)
-                      : setInputError(true);
-                  }}
-                >
-                  {prop.okbtn.toUpperCase()}
-                </button>
-              ) : (
-                ""
-              )}
-            </div>
-          </React.Fragment>
-        )}
+            <React.Fragment>
+              <main>
+                <div>{prop.message}</div>
+                {prop.input ? (
+                  <input
+                    type="text"
+                    className={inputError ? "error" : ""}
+                    placeholder={prop.input}
+                    onChange={(e) => {
+                      // event handler for on change of text box
+                      setMessage(e.target.value);
+                      setInputError(false);
+                    }}
+                  />
+                ) : (
+                    ""
+                  )}
+              </main>
+              <div className="buttons">
+                {/* Cancel button based on the props prop.cancelbtn */}
+                {prop.cancelbtn ? (
+                  <button className="cancel" onClick={(e) => prop.handleCancel()}>
+                    {prop.cancelbtn.toUpperCase()}
+                  </button>
+                ) : (
+                    ""
+                  )}
+                {/* OK button based on the props prop.okbtn */}
+                {prop.okbtn ? (
+                  <button
+                    className="ok"
+                    onClick={(e) => {
+                      // event handler for onClick
+                      message.length > 0
+                        ? prop.handleOK(message)
+                        : setInputError(true);
+                    }}
+                  >
+                    {prop.okbtn.toUpperCase()}
+                  </button>
+                ) : (
+                    ""
+                  )}
+              </div>
+            </React.Fragment>
+          )}
       </div>
     </div>
   );

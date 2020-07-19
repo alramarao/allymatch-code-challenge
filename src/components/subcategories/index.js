@@ -4,6 +4,14 @@ import SubCategory from "./subcategory";
 import { CSSTransition } from "react-transition-group";
 import Popup from "../popup/index";
 
+/**
+ * @function Products is functional component
+ * Products is the container to display Products
+ * @hook {object} useProducts Custom hook to update the actions
+ * @param {object} prop Component props
+ * @param {Array} prop.subcategories SubCategories list
+ * @param {Number} prop.productid Product ID
+ */
 function SubCategories(prop) {
   const { addNewSubCategory } = useProducts();
   const [isShowPopup, setIsShowPopup] = useState(false);
@@ -17,28 +25,29 @@ function SubCategories(prop) {
           onChange={(e) => setSearchText(e.target.value.toUpperCase())}
         />
       </div>
+      {/* Rendering Subcategory component from the Sub-Categories list */}
       {typeof prop.subcategories != "undefined" &&
-      typeof prop.subcategories != "undefined"
+        typeof prop.subcategories != "undefined"
         ? prop.subcategories.map((subcategory) => {
-            if (subcategory.text.toUpperCase().includes(searchText))
-              return (
-                <CSSTransition
+          if (subcategory.text.toUpperCase().includes(searchText))
+            return (
+              <CSSTransition
+                key={subcategory.id}
+                in={true}
+                appear
+                timeout={200}
+                classNames="transitionitems"
+                unmountOnExit
+              >
+                <SubCategory
                   key={subcategory.id}
-                  in={true}
-                  appear
-                  timeout={200}
-                  classNames="transitionitems"
-                  unmountOnExit
-                >
-                  <SubCategory
-                    key={subcategory.id}
-                    productid={prop.productid}
-                    subcategory={subcategory}
-                  ></SubCategory>
-                </CSSTransition>
-              );
-            else return "";
-          })
+                  productid={prop.productid}
+                  subcategory={subcategory}
+                ></SubCategory>
+              </CSSTransition>
+            );
+          else return "";
+        })
         : ""}
       <div className="newItem">
         <input
@@ -63,8 +72,8 @@ function SubCategories(prop) {
           handleCancel={() => setIsShowPopup(false)}
         />
       ) : (
-        ""
-      )}
+          ""
+        )}
     </div>
   );
 }

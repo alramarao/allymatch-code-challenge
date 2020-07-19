@@ -4,6 +4,15 @@ import SubProduct from "./subproduct";
 import { CSSTransition } from "react-transition-group";
 import Popup from "../popup/index";
 
+/**
+ * @function SubProducts is functional component
+ * SubProducts is the container to display sub-Product
+ * @hook {object} useProducts Custom hook to update the actions
+ * @param {object} prop Component props
+ * @param {Array} prop.subproducts SubProducts list
+ * @param {Number} prop.productid Product ID
+ * @param {Number} prop.subcategoryid SubCategory ID
+ */
 function SubProducts(prop) {
   const { addNewSubProduct } = useProducts();
   const [isShowPopup, setIsShowPopup] = useState(false);
@@ -17,29 +26,30 @@ function SubProducts(prop) {
           onChange={(e) => setSearchText(e.target.value.toUpperCase())}
         />
       </div>
+      {/* Rendering SubProduct components */}
       {typeof prop.subproducts != "undefined" &&
-      typeof prop.subproducts != "undefined"
+        typeof prop.subproducts != "undefined"
         ? prop.subproducts.map((subproduct) => {
-            if (subproduct.text.toUpperCase().includes(searchText))
-              return (
-                <CSSTransition
+          if (subproduct.text.toUpperCase().includes(searchText))
+            return (
+              <CSSTransition
+                key={subproduct.id}
+                in={true}
+                appear
+                timeout={200}
+                classNames="transitionitems"
+                unmountOnExit
+              >
+                <SubProduct
                   key={subproduct.id}
-                  in={true}
-                  appear
-                  timeout={200}
-                  classNames="transitionitems"
-                  unmountOnExit
-                >
-                  <SubProduct
-                    key={subproduct.id}
-                    productid={prop.productid}
-                    subcategoryid={prop.subcategoryid}
-                    subproduct={subproduct}
-                  ></SubProduct>
-                </CSSTransition>
-              );
-            else return "";
-          })
+                  productid={prop.productid}
+                  subcategoryid={prop.subcategoryid}
+                  subproduct={subproduct}
+                ></SubProduct>
+              </CSSTransition>
+            );
+          else return "";
+        })
         : ""}
       <div className="newItem">
         <input
@@ -64,8 +74,8 @@ function SubProducts(prop) {
           handleCancel={() => setIsShowPopup(false)}
         />
       ) : (
-        ""
-      )}
+          ""
+        )}
     </div>
   );
 }

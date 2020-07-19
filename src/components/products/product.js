@@ -3,6 +3,13 @@ import useProducts from "../../hooks/useProducts";
 import SubCategories from "../subcategories";
 import { CSSTransition } from "react-transition-group";
 
+/**
+ * @function Product is functional component
+ * Product is the container to display Products
+ * @hook {object} useProducts Custom hook to update the actions
+ * @param {object} prop component props
+ * @param {object} prop.product Product Details
+ */
 export default function Product(prop) {
   const { updateProduct } = useProducts();
   const [isCategoryExpanded, setIsCategoryExpanded] = useState(false);
@@ -31,6 +38,7 @@ export default function Product(prop) {
                 className={isCategoryExpanded ? "arrow down" : "arrow up"}
               ></span>
             </div>
+            {/* Rendering SubCategories Component which is a container for sub-category component */}
             {isCategoryExpanded ? (
               <CSSTransition
                 in={isCategoryExpanded}
@@ -46,13 +54,13 @@ export default function Product(prop) {
                 />
               </CSSTransition>
             ) : (
-              ""
-            )}
+                ""
+              )}
           </div>
         </CSSTransition>
       ) : (
-        ""
-      )}
+          ""
+        )}
     </div>
   );
 }

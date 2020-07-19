@@ -5,6 +5,11 @@ class DBService {
     this.collections = getDB();
   }
 
+  /**
+   * @method to retrieve data from collections Products, SubCategory and SubProduct
+   * @aggregation to join the all three tables
+   * @lookup used lookup's to join the three collections
+   */
   getProductDetails() {
     return new Promise((resolve, reject) => {
       this.collections
@@ -61,16 +66,39 @@ class DBService {
         });
     });
   }
+
+  /**  
+   * @method createProduct to add new Product
+   * @param {Object} opt Request.body Product object which needs to be inserted in db 
+   * @returns {Object} if it's success then it will returns the newly created Product object, else error object 
+   */
   createProduct(opt) {
     return this.createItem(opt, "Products");
   }
+
+  /**  
+   * @method createSubCategory to add new SubCategory
+   * @param {Object} opt Request.body SubCategory object which needs to be inserted in db 
+   * @returns {Object} if it's success then it will returns the newly created SubCategory object, else error object 
+   */
   createSubCategory(opt) {
     return this.createItem(opt, "SubCategories");
   }
+
+  /**  
+   * @method createSubProduct to add new SubProduct
+   * @param {Object} opt Request.body SubProduct object which needs to be inserted in db 
+   * @returns {Object} if it's success then it will returns the newly created SubProduct object, else error object 
+   */
   createSubProduct(opt) {
     return this.createItem(opt, "SubProducts");
   }
 
+  /** 
+   * @param {Object} opt Request.body object which needs to be inserted in db 
+   * @param {String} CollectionName name of the collection name
+   * @returns {Object} if it's success then it will returns the newly created object, else error object 
+   */
   createItem(opt, CollectionName) {
     return new Promise((resolve, reject) => {
       this.collections

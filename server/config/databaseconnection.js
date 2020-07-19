@@ -2,6 +2,10 @@ const MongoClient = require("mongodb").MongoClient;
 
 let mongoDB;
 
+/**
+ * @constant setupDB to connect with mongodb
+ * @param {function} callback function to access the object
+ */
 const setupDB = (callback) => {
   const uri =
     "mongodb+srv://userramarao:passwordramarao@eventsdb-fl4dg.mongodb.net/test?retryWrites=true&w=majority";
@@ -10,6 +14,8 @@ const setupDB = (callback) => {
     uri,
     { useNewUrlParser: true, useUnifiedTopology: true },
     (err, client) => {
+      /**
+       * @database full-stack-server */
       mongoDB = client.db("full-stack-server");
 
       if (err) {
